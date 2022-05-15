@@ -1,0 +1,10 @@
+#include <iostream>
+using namespace std;
+main()
+{
+    unsigned u=10;
+    int i=-42;
+    cout<<u+i;
+    system("pause");
+    
+}
