@@ -1,0 +1,86 @@
+#include<iostream>
+#include<string>
+using namespace std;
+#define MAX 10
+//员工工资管理
+ 
+class Employee
+{
+public:
+	Employee(string name,int year):m_strName(name),m_nYear(year){} //构造函数
+	virtual ~Employee(){}
+	string GetName()const{return m_strName;}   //获取姓名
+	int GetYear()const{return m_nYear;}       //获取工龄
+	int GetSalary(){return 0;};             //获取工资
+private:
+	string m_strName;
+	int m_nYear;
+};
+ 
+class Worker:public Employee
+{
+public:
+	Worker(string name,int year):Employee(name,year){}
+	~Worker(){}
+	int GetSalary(){return 12000;} //此处未给出具体工资算法，可进行修改  
+};
+ 
+class Manager:public Employee
+{
+public:
+	Manager(string name,int year):Employee(name,year){}
+	~Manager(){}
+	int GetSalary(){return 13000;}  //此处未给出具体工资算法，可进行修改
+};
+ 
+class EmployeeSalarySystem
+{
+public:
+	EmployeeSalarySystem(){m_nCount = 0;}
+	~EmployeeSalarySystem()
+	{
+		while(--m_nCount >= 0)
+		{
+			delete employee[m_nCount];
+			employee[m_nCount] = NULL;
+		}
+	}
+	void InPutEmployee()
+	{
+		string name;
+		int year;    //工龄
+		int flag;    //职位标志位，Worker：0;Manager:1
+		cout<<"请输入员工姓名与工龄"<<endl;
+		cin>>name>>year;
+		cout<<"请输入员工职位，Worker：0;Manager:1;"<<endl;
+		cin>>flag;
+		if(flag == 0)
+		{
+			employee[m_nCount] = new Worker(name,year);
+			++m_nCount;
+		}
+		if(flag == 1)
+		{
+			employee[m_nCount] = new Manager(name,year);
+			++m_nCount;
+		}
+	}
+	void ShowEmployee()
+	{
+		for(int i=0;i<m_nCount;i++)
+			cout<<"姓名："<<employee[i]->GetName()<<"  工龄："<<employee[i]->GetYear()<<"  工资："<<employee[i]->GetSalary()<<endl;
+	}
+private:
+	Employee *employee[MAX];   //上方对MAX进行了宏定义
+	int m_nCount;
+};
+ 
+main()//主函数仅为进行调试，具体还可进行改进
+{
+	EmployeeSalarySystem ess;
+	ess.InPutEmployee();
+	ess.InPutEmployee();
+	ess.InPutEmployee();
+	ess.ShowEmployee();
+	system("pause");  
+}
